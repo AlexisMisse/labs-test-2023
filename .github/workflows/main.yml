@@ -1,28 +1,29 @@
-{
-    "name": "@dAlexisMisse/devops-ci-challenge",
-    "version": "0.0.1",
-    "description": "📦 npm package",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index.js"
-    },
-    "files": [
-        "index.js"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/AlexisMisse/devops-ci-challenge.git"
-    },
-    "keywords": [
-        "npm",
-        "publish",
-        "package",
-        "registry"
-    ],
-    "author": {
-        "name": "Brad Garropy",
-        "email": "bradgarropy@gmail.com",
-        "url": "https://bradgarropy.com"
-    },
+name: Merge to main
+
+on:
+  push:
+     branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 16, 18, 19 ]
+
+
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run linting rules and tests
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
+     
+
+
     
-}
+    
